@@ -1,0 +1,54 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python "./dvc using AWS/src/data_ingestion.py"
+    deps:
+    - path: ./dvc using AWS/src/data_ingestion.py
+      hash: md5
+      md5: 4138b79f8e8f8b4bdbb0944b02078420
+      size: 3642
+    outs:
+    - path: ./dvc using AWS/data/raw
+      hash: md5
+      md5: 1a287d34dc172d9f950c03dae35f7e73.dir
+      size: 484846
+      nfiles: 2
+  data_preprocessing:
+    cmd: python "./dvc using AWS/src/data_preprocessing.py"
+    deps:
+    - path: ./dvc using AWS/data/raw
+      hash: md5
+      md5: 1a287d34dc172d9f950c03dae35f7e73.dir
+      size: 484846
+      nfiles: 2
+    - path: ./dvc using AWS/src/data_preprocessing.py
+      hash: md5
+      md5: c0cce7de1817cbc9bf05921a568debd4
+      size: 3844
+    outs:
+    - path: ./dvc using AWS/data/interim
+      hash: md5
+      md5: 0f1bcc59c9874d6ebdcbdf7fad55fee1.dir
+      size: 377517
+      nfiles: 2
+  feature_engineering:
+    cmd: python "./dvc using AWS/src/feature_engineering.py"
+    deps:
+    - path: ./dvc using AWS/data/interim
+      hash: md5
+      md5: 0f1bcc59c9874d6ebdcbdf7fad55fee1.dir
+      size: 377517
+      nfiles: 2
+    - path: ./dvc using AWS/src/feature_engineering.py
+      hash: md5
+      md5: 146303d5abd383c392a381ae4623c444
+      size: 3970
+    params:
+      dvc using AWS/params.yaml:
+        feature_engineering.max_features: 35
+    outs:
+    - path: ./dvc using AWS/data/processed
+      hash: md5
+      md5: 5803f8ef0a41ec215395a4a59f190c6b.dir
+      size: 1030040
+      nfiles: 2

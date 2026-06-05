@@ -8,9 +8,10 @@ import string
 import nltk
 nltk.download("stopwords")
 nltk.download("punkt")
+nltk.download("punkt_tab")
 
 #ensureing lod dir exist
-log_dir = "dvc using AWS/logs"
+log_dir = "./dvc using AWS/logs"
 os.makedirs(log_dir, exist_ok=True)
 
 #setting up logger
@@ -24,7 +25,7 @@ log_file_path = os.path.join(log_dir, "data_processing.log")
 file_handler = logging.FileHandler(log_file_path)
 file_handler.setLevel("DEBUG")
 
-formatter = logging.FileHandler("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
 

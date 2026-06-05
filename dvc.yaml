@@ -1,0 +1,50 @@
+stages:
+  data_ingestion:
+    cmd: python "./dvc using AWS/src/data_ingestion.py"
+    deps:
+    - "./dvc using AWS/src/data_ingestion.py"
+    # params:
+    # - data_ingestion.test_size
+    outs:
+    - "./dvc using AWS/data/raw"
+  data_preprocessing:
+    cmd: python "./dvc using AWS/src/data_preprocessing.py"
+    deps:
+    - "./dvc using AWS/data/raw"
+    - "./dvc using AWS/src/data_preprocessing.py"
+    outs:
+    - "./dvc using AWS/data/interim"
+  feature_engineering:
+    cmd: python "./dvc using AWS/src/feature_engineering.py"
+    deps:
+    - "./dvc using AWS/data/interim"
+    - "./dvc using AWS/src/feature_engineering.py"
+    # params:
+    # - dvc using AWS/params.yaml:
+    #   - feature_engineering.max_features
+    outs:
+    - "./dvc using AWS/data/processed"
+  model_building:
+    cmd: python "./dvc using AWS/src/model_building.py"
+    deps:
+    - "./dvc using AWS/data/processed"
+    - "./dvc using AWS/src/model_building.py"
+    params:
+    - model_building.n_estimators
+    - model_building.random_state
+    outs:
+    - models/model.pkl
+  model_evaluation:
+    cmd: python "./dvc using AWS/src/model_evaluation.py"
+    deps:
+    - models/model.pkl
+    - "./dvc using AWS/src/model_evaluation.py"
+    metrics:
+    - reports/metrics.json
+params:
+- dvclive/params.yaml
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step

@@ -1,7 +1,12 @@
 # Byte-compiled / optimized / DLL files
+.log
 __pycache__/
 *.py[codz]
 *$py.class
+logs
+data 
+models
+reports
 
 # C extensions
 *.so

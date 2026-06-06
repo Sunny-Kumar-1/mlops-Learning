@@ -1,3 +1,10 @@
+.dvc
+dvc using AWS
+dvclive
+.dvcignore
+dvc.lock
+dvc.yml
+
 # Byte-compiled / optimized / DLL files
 .log
 __pycache__/

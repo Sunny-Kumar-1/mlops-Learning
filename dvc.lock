@@ -9,11 +9,11 @@ stages:
       size: 3644
     params:
       dvc using AWS/params.yaml:
-        data_ingestion.test_size: 0.2
+        data_ingestion.test_size: 0.15
     outs:
     - path: ./dvc using AWS/data/raw
       hash: md5
-      md5: 1a287d34dc172d9f950c03dae35f7e73.dir
+      md5: a15ba66afdf82f8659b031b175286ed3.dir
       size: 484846
       nfiles: 2
   data_preprocessing:
@@ -21,7 +21,7 @@ stages:
     deps:
     - path: ./dvc using AWS/data/raw
       hash: md5
-      md5: 1a287d34dc172d9f950c03dae35f7e73.dir
+      md5: a15ba66afdf82f8659b031b175286ed3.dir
       size: 484846
       nfiles: 2
     - path: ./dvc using AWS/src/data_preprocessing.py
@@ -31,16 +31,16 @@ stages:
     outs:
     - path: ./dvc using AWS/data/interim
       hash: md5
-      md5: 0f1bcc59c9874d6ebdcbdf7fad55fee1.dir
-      size: 377517
+      md5: 039268b93640bd0c05231e9ec050b929.dir
+      size: 376360
       nfiles: 2
   feature_engineering:
     cmd: python "./dvc using AWS/src/feature_engineering.py"
     deps:
     - path: ./dvc using AWS/data/interim
       hash: md5
-      md5: 0f1bcc59c9874d6ebdcbdf7fad55fee1.dir
-      size: 377517
+      md5: 039268b93640bd0c05231e9ec050b929.dir
+      size: 376360
       nfiles: 2
     - path: ./dvc using AWS/src/feature_engineering.py
       hash: md5
@@ -48,20 +48,20 @@ stages:
       size: 3970
     params:
       dvc using AWS/params.yaml:
-        feature_engineering.max_features: 35
+        feature_engineering.max_features: 32
     outs:
     - path: ./dvc using AWS/data/processed
       hash: md5
-      md5: 5803f8ef0a41ec215395a4a59f190c6b.dir
-      size: 1030040
+      md5: 290edbf6aafa76c40940db90c7492022.dir
+      size: 950481
       nfiles: 2
   model_building:
     cmd: python "./dvc using AWS/src/model_building.py"
     deps:
     - path: ./dvc using AWS/data/processed
       hash: md5
-      md5: 5803f8ef0a41ec215395a4a59f190c6b.dir
-      size: 1030040
+      md5: 290edbf6aafa76c40940db90c7492022.dir
+      size: 950481
       nfiles: 2
     - path: ./dvc using AWS/src/model_building.py
       hash: md5
@@ -69,26 +69,26 @@ stages:
       size: 4487
     params:
       dvc using AWS/params.yaml:
-        model_building.n_estimators: 22
+        model_building.n_estimators: 25
         model_building.random_state: 2
     outs:
     - path: ./dvc using AWS/models/model.pkl
       hash: md5
-      md5: a7f55d12f17702d8c5c7a90d85e1566e
-      size: 1235543
+      md5: e244e32b7d0a81721040108078ddb634
+      size: 1418002
   model_evaluation:
     cmd: python "./dvc using AWS/src/model_evaluation.py"
     deps:
     - path: ./dvc using AWS/models/model.pkl
       hash: md5
-      md5: a7f55d12f17702d8c5c7a90d85e1566e
-      size: 1235543
+      md5: e244e32b7d0a81721040108078ddb634
+      size: 1418002
     - path: ./dvc using AWS/src/model_evaluation.py
       hash: md5
-      md5: 3ef7363831c7fe8bd908c428bfc80e4f
-      size: 4729
+      md5: 09382e5de52c13581b33b7f2e16123c6
+      size: 4714
     outs:
     - path: ./dvc using AWS/reports/metrics.json
       hash: md5
-      md5: 588fddd4c5d8092b4725b1626748561c
+      md5: 54b8289161f2c79e2a49ce99835803bc
       size: 145
